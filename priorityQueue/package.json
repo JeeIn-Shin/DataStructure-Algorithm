@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "priorityqueue",
+  "version": "1.0.0",
+  "description": "우선순위 큐 DB 연동해서 테스트",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeeIn-Shin/DataStructure-Algorithm.git"
+  },
+  "author": "Jin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JeeIn-Shin/DataStructure-Algorithm/issues"
+  },
+  "homepage": "https://github.com/JeeIn-Shin/DataStructure-Algorithm#readme"
+}
