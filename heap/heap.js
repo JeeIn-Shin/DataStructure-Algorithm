@@ -1,4 +1,7 @@
 //heap이란? 완전 이진 트리
+//모든 노드에 저장된 값(우선순위)들은 자식 노드들의 것보다 (우선순위가) 크거나 같다
+
+
 //Max Heap, Min Heap 으로 구분할 수 있음
 
 //Max Heap
@@ -18,6 +21,7 @@
 
 
 //MAX Heap을 기준으로 함
+//생각해보니..? 이게? 우선순위 큐 아니신지?
 class Heap {
 
     constructor() {
@@ -35,12 +39,12 @@ class Heap {
         //그러니까, 배열의 크기를 알아야하는데
         //이건 heapsize()함수를 이용할거임
         this.heap.push(data);
-        let index = this.heapsize() - 1
+        let index = this.heapsize() - 1; //1부터 시작
 
         //부모 노드와 삽입된 data 값 비교를 해야하는데
         //그러면 부모의 위치를 알아야함
-        let parent = (index - 1) / 2;
-
+        let parent = Math.floor(index / 2);
+        
         //삽입된 data가 더 큰 숫자라면 교환
         // if(parent < index)   {
         //     [parent, index] = [index, parent]
@@ -55,16 +59,13 @@ class Heap {
         // this.heap[parent] < thie.heap[data]
         //이렇게 비교해주고있었음
 
-        if(this.heapsize() == 2)
-            return ;
-
-        while (this.heap[parent] < this.heap[index]) {
+        //heap에 데이터가 처음 들어오는거라면?
+        //비교될 필요가 없이 그냥 삽입만 되면 됨
+        while (index > 1 && this.heap[parent] < this.heap[index]) {         
             [this.heap[parent], this.heap[index]] = [this.heap[index], this.heap[parent]]
+            
             index = parent;
-            parent = Math.floor((index) / 2);
-
-            if(parent == 0)
-                return ;
+            parent = Math.floor(index / 2);
         }
     }
 
@@ -77,7 +78,6 @@ class Heap {
         let parent = 1;
         let child = 2;
         let last = this.heapsize() - 1;
-        let lastValue = this.heap[last];
 
         [this.heap[last], this.heap[1]] = [this.heap[1], this.heap[last]]
         let returnValue = this.heap.pop();
@@ -94,29 +94,26 @@ class Heap {
         //언제까지 돌아야하지? 
         while (child <= this.heap.length) {
 
-
-            //아 이거 꼬이는데;
-
-            if (this.heap[child] < this.heap[child + 1])
+            //만약 자식 노드들의 값이 모두 동일하다면
+            //왼쪽으로 이동해줌
+            if (this.heap[child] < this.heap[child + 1])    {
                 [this.heap[parent], this.heap[child + 1]] = [this.heap[child + 1], this.heap[parent]]
-            else
+                
+                
+                parent = child + 1;
+                child = (parent * 2);
+            }
+            else if(this.heap[child] >= this.heap[child + 1])    {
                 [this.heap[parent], this.heap[child]] = [this.heap[child], this.heap[parent]]
 
-            //세상에 여기가 문제였음;
-            //아니 그러니까.. 음
-            //처음에 이 부분을 this.heap[last] 라고 써놔서
-            //계속 헛돌면서 종료가 안됐음....
-            //근데 현재 시점에서 heap의 가장 마지막 값이 아니라, 삭제되기 전 heap의 마지막 값을 봐야했음.. 
-            if(lastValue >= this.heap[child])
+                //레벨 아래로 이동
+                parent = child;
+                child = parent * 2;
+            }
+            else
                 return ;
 
-            //레벨 아래로 이동
-            parent = child;
-            child *= 2;
         }
-
-        this.heap[parent] = last;
-
 
         return returnValue;
     }
@@ -126,13 +123,27 @@ class Heap {
 let heap = new Heap();
 
 heap.insert(5);
+heap.insert(7);
 heap.insert(1);
 heap.insert(4);
 heap.insert(0);
+heap.insert(5);
+heap.insert(11);
+heap.insert(0);
+heap.insert(1);
+heap.insert(9);
 heap.insert(7);
+heap.insert(5); 
 
 console.log(heap);
 
 heap.delete();
 
 console.log(heap);
+
+heap.delete();
+console.log(heap);
+heap.delete();
+console.log(heap);
+
+
