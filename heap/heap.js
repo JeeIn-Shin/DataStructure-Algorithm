@@ -22,7 +22,7 @@
 
 //MAX Heap을 기준으로 함
 //생각해보니..? 이게? 우선순위 큐 아니신지?
-class Heap {
+class MAXheap {
 
     constructor() {
         //배열의 첫 원소는 사용하지 X
@@ -80,7 +80,7 @@ class Heap {
         let last = this.heapsize() - 1;
 
         [this.heap[last], this.heap[1]] = [this.heap[1], this.heap[last]]
-        let returnValue = this.heap.pop();
+        this.heap.pop();
 
         //힙 재구성 --> 어떻게??
         //루트 노드와 자식 노드의 위치를 교환해주는데,
@@ -116,36 +116,112 @@ class Heap {
                 return ;
 
         }
-
-        return returnValue;
     }
-
 }
 
-let heap = new Heap();
+//MIN Heap
+class MINHeap {
 
-heap.insert(5);
-heap.insert(7);
-heap.insert(1);
-heap.insert(4);
-heap.insert(0);
-heap.insert(5);
-heap.insert(11);
-heap.insert(0);
-heap.insert(1);
-heap.insert(9);
-heap.insert(7);
-heap.insert(5); 
+    constructor() {
+        //배열의 첫 원소는 사용하지 X
+        this.heap = [ null ];
+    }
 
-console.log(heap);
+    heapsize() {
+        return this.heap.length;
+    }
 
-heap.delete();
+    //heap 삽입
+    insert(data) {
+        this.heap.push(data);
+        
+        let index = this.heapsize() - 1; //1부터 시작
+        let parent = Math.floor(index / 2);
+        
+        while (index > 1 && this.heap[parent] > this.heap[index]) {         
+            [this.heap[parent], this.heap[index]] = [this.heap[index], this.heap[parent]]
+            
+            index = parent;
+            parent = Math.floor(index / 2);
+        }
+    }
 
-console.log(heap);
+    //heap 삭제
+    delete() {
 
-heap.delete();
-console.log(heap);
-heap.delete();
-console.log(heap);
+        let parent = 1;
+        let child = 2;
+        let last = this.heapsize() - 1;
+
+        [this.heap[last], this.heap[1]] = [this.heap[1], this.heap[last]]
+        this.heap.pop();
+
+        while (child <= this.heap.length) {
+
+            //만약 자식 노드들의 값이 모두 동일하다면
+            //왼쪽으로 이동해줌
+            if (this.heap[child] > this.heap[child + 1])    {
+                [this.heap[parent], this.heap[child + 1]] = [this.heap[child + 1], this.heap[parent]]
+                
+                
+                parent = child + 1;
+                child = (parent * 2);
+            }
+            else if(this.heap[child] <= this.heap[child + 1])    {
+                [this.heap[parent], this.heap[child]] = [this.heap[child], this.heap[parent]]
+
+                //레벨 아래로 이동
+                parent = child;
+                child = parent * 2;
+            }
+            else
+                return ;
+
+        }
+    }
+}
+
+// let maxheap = new MAXheap();
+
+// maxheap.insert(5);
+// maxheap.insert(7);
+// maxheap.insert(1);
+// maxheap.insert(4);
+// maxheap.insert(0);
+// maxheap.insert(5);
+// maxheap.insert(11);
+// maxheap.insert(0);
+// maxheap.insert(1);
+// maxheap.insert(9);
+// maxheap.insert(7);
+// maxheap.insert(5); 
+
+// console.log(maxheap);
+
+// maxheap.delete();
+
+// console.log(maxheap);
+
+let minheap = new MINHeap();
+
+minheap.insert(5);
+minheap.insert(7);
+minheap.insert(1);
+minheap.insert(4);
+minheap.insert(0);
+minheap.insert(5);
+minheap.insert(11);
+minheap.insert(0);
+minheap.insert(1);
+minheap.insert(9);
+minheap.insert(7);
+minheap.insert(5); 
+
+console.log(minheap);
+
+minheap.delete();
+minheap.delete();
+
+console.log(minheap);
 
 

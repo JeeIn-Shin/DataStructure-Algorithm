@@ -1,12 +1,20 @@
 const DB = require("../config/database.js");
 
 const LANGUAGE = {
-    getByLanguage : function (LANGUAGE, ACTIVITY, result) {
+    getByMatchingInformation : function (info, result) {
+
+        // {
+        //     language : java,
+        //     activity : code_review
+        // }
+        let selectedValues = Object.values(info);
+
         DB.getConnection((err, connection) => {
             if(!err)    {
-                let sql = `SELECT LANGUAGE.user_id, LANGUAGE.${LANGUAGE}, ACTIVITY.${ACTIVITY}
+                let sql = `SELECT LANGUAGE.user_id, LANGUAGE.${selectedValues[0]}, ACTIVITY.${selectedValues[1]}
                            FROM LANGUAGE
-                           INNER JOIN LANGUAGE.user_id = ACTIVITY.user_id`;
+                           INNER JOIN ACTIVITY
+                           ON LANGUAGE.user_id = ACTIVITY.user_id`;
                 connection.query(sql, (err, res) => {
                     connection.release();
 

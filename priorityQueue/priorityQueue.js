@@ -30,8 +30,8 @@ class priorityQueue  {
         this.node = [ null ];
     }
 
-    enpueue(data, id)  {
-        const list = { data, id };
+    enpueue(id, data)  {
+        const list = { id, data };
 
         this.node.push(list);
 
@@ -39,7 +39,7 @@ class priorityQueue  {
         let parent = Math.floor(cur / 2);
 
         while(cur > 1) {
-            if(this.node[parent].data < this.node[cur].data)
+            if(this.node[parent].data > this.node[cur].data)
                 [ this.node[parent], this.node[cur] ] = [ this.node[cur], this.node[parent] ];
          
             cur = parent;
@@ -53,16 +53,16 @@ class priorityQueue  {
         let child = 2;
 
         [ this.node[parent], this.node[last]] = [ this.node[last], this.node[parent] ]
-        let depueueValue = this.node.pop();
+        let deleteValue = this.node.pop();
 
         while(child < this.node.length - 1) {           
-            if(this.node[child].data < this.node[child + 1].data)    {
+            if(this.node[child].data > this.node[child + 1].data)    {
                 [ this.node[parent], this.node[child + 1] ] = [ this.node[child + 1], this.node[parent] ]
                 
                 parent = child + 1;
                 child = parent * 2;                
             }
-            else if(this.node[child].data >= this.node[child + 1].data)   {
+            else if(this.node[child].data <= this.node[child + 1].data)   {
                 [ this.node[parent], this.node[child] ] = [ this.node[child], this.node[parent] ]
             
                 parent = child;
@@ -71,10 +71,7 @@ class priorityQueue  {
             else
                 return ;
         }
-
-
-
-        return depueueValue;
+        return deleteValue;
     }
 }
 
